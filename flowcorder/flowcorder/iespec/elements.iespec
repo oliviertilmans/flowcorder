@@ -1,0 +1,28 @@
+# Add starting state
+flowStartReason(65534/1)<unsigned8>[1]
+# Sent/received byte counters
+transferredOctetTotalCount(65534/2)<unsigned64>[8]
+receivedOctetTotalCount(65534/3)<unsigned64>[8]
+
+retransmittedPacketTotalCount(65534/4)<unsigned32>[4]
+# rtt
+meanLatencyMilliseconds(65534/5)<unsigned16>[2]
+# incast duplication (bufferbloat)
+duplicatePacketTotalCount(65534/6)<unsigned32>[4]
+duplicateOctetTotalCount(65534/7)<unsigned64>[8]
+# rto, ...
+stallCount(65534/8)<unsigned16>[2]
+# reordering metrics
+reorderingPacketCount(65534/9)<unsigned32>[4]
+reorderingOctetCount(65534/10)<unsigned64>[8]
+meanReorderingDistance(65534/11)<unsigned32>[4]
+varReorderingDistance(65534/12)<unsigned32>[4]
+# reinjection across subflows
+reinjectionOctetIn(65534/13)<unsigned64>[8]
+reinjectionOctetOut(65534/14)<unsigned64>[8]
+reinjectionPacketIn(65534/15)<unsigned32>[4]
+reinjectionPacketOut(65534/16)<unsigned32>[4]
+# Amount of active subflows for a multipath connection
+subflowCount(65534/17)<unsigned8>[1]
+rcvBufOctetCount(65534/18)<unsigned32>[4]
+pathIndex(65534/19)<unsigned8>[1]

@@ -1,0 +1,29 @@
+[Unit]
+Description=flowcorder TCP Exporter
+
+[Service]
+Type=forking
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+PIDFile=/tmp/flowcorder_tcp_exporter.pid
+User=root
+Group=root
+ExecStart=/usr/bin/flowcorder_tcp_exporter --cfg /etc/flowcorder_config.cfg\
+                                            --name exporter tcp\
+                                            --daemonize\
+                                            --action start\
+                                            --pid-file /tmp/flowcorder_tcp_exporter.pid
+ExecStop=/usr/bin/flowcorder_tcp_exporter --daemonize\
+                                           --action stop\
+                                           --pid-file /tmp/flowcorder_tcp_exporter.pid
+ExecReload=/usr/bin/flowcorder_tcp_exporter --cfg /etc/flowcorder_config.cfg\
+                                             --name exporter tcp\
+                                             --daemonize\
+                                             --action restart\
+                                             --pid-file /tmp/flowcorder_tcp_exporter.pid
+ExecStopPost=/usr/bin/flowcorder_tcp_exporter --reset-bpf
+
+[Install]
+WantedBy=multi-user.target

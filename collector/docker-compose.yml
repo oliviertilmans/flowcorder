@@ -1,0 +1,58 @@
+version: '2.3'
+
+services:
+  elasticsearch:
+    build:
+      context: elasticsearch/
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./ELK_DATA:/usr/share/elasticsearch/data
+    environment:
+      ES_JAVA_OPTS: "-Xmx1024m -Xms1024m"
+    networks:
+      - elk
+    ulimits:
+      nproc: 4096
+      nofile: 65536
+      memlock:
+        soft: -1
+        hard: -1
+
+  logstash:
+    build:
+      context: logstash/
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./logstash/ipfix.yaml:/etc/logstash/ipfix.yaml:ro
+      - ./logstash/pipeline-resources:/etc/logstash/pipeline-res:ro
+    ports:
+      - "2055:2055/udp"
+    environment:
+      LS_JAVA_OPTS: "-Xmx1024m -Xms1024m"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+    ulimits:
+      nproc: 4096
+      nofile: 65536
+      memlock:
+        soft: -1
+        hard: -1
+
+  kibana:
+    build:
+      context: kibana/
+    volumes:
+      - ./kibana/config/:/usr/share/kibana/config:ro
+    ports:
+      - "127.0.0.1:5601:5601"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+networks:
+  elk:
+    driver: bridge

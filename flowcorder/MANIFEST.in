@@ -1,0 +1,10 @@
+graft flowcorder/iespec
+graft flowcorder/daemons/bpf_codes
+
+# Must include the files here to be packaged in sdist,
+# and also in data_files to be installed elsewhere.
+graft systemd
+
+include README.md
+include LICENSE
+include flowcorder/base_config.cfg
